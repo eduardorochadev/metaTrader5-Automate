@@ -1,0 +1,13 @@
+# Python cache and virtual envs
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor and OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Sensitive credentials
+senhas/*.txt
