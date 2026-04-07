@@ -37,3 +37,9 @@ streamlit run painel.py
 
 - Se aparecer erro de inicialização, confirme se o MT5 está aberto.
 - O projeto foi mantido enxuto para facilitar evolução para automações futuras.
+
+## Layout Desenvolvido
+
+Preview do dashboard implementado:
+
+![Layout do dashboard](assets/dashboardapp.png)
