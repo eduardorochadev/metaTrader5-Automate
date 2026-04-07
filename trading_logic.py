@@ -6,7 +6,7 @@ import pandas as pd
 
 
 ROBOT_MAGIC = 123456
-ROBOT_COMMENT = "Execucao Python"
+ROBOT_COMMENT = "Execucao Eduardo Autotrade"
 
 
 def registrar_log(mensagem, log_file):
@@ -83,10 +83,18 @@ def enviar_ordem(simbolo, volume, tipo_ordem, sl_pts, tp_pts, log_file, max_spre
         registrar_log(f"ORDEM BLOQUEADA ({tipo_ordem}): {motivo_stops}", log_file)
         return None
 
-    filling_mode = getattr(info, "filling_mode", mt5.ORDER_FILLING_FOK)
-    if filling_mode not in (mt5.ORDER_FILLING_FOK, mt5.ORDER_FILLING_IOC, mt5.ORDER_FILLING_RETURN):
-        filling_mode = mt5.ORDER_FILLING_FOK
-
+    # filling_mode = getattr(info, "filling_mode", mt5.ORDER_FILLING_FOK)
+    # if filling_mode not in (mt5.ORDER_FILLING_FOK, mt5.ORDER_FILLING_IOC, mt5.ORDER_FILLING_RETURN):
+    #     filling_mode = mt5.ORDER_FILLING_FOK
+    
+    # Detectar automaticamente o modo de preenchimento aceito pela conta
+    filling_mode = info.filling_mode
+    
+    # Se a corretora retornar 0 ou modos restritos, tentamos o IOC ou o FOK disponível
+    # Definindo o modo de preenchimento de acordo com a sua corretora (Tudo/Nada = FOK)
+    filling_mode = mt5.ORDER_FILLING_FOK 
+    
+    # Montagem da solicitacao com o modo fixado para sua conta
     solicitacao = {
         "action": mt5.TRADE_ACTION_DEAL,
         "symbol": simbolo,
