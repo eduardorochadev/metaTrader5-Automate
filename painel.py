@@ -69,7 +69,7 @@ agora_ts = time.time()
 em_cooldown = (agora_ts - st.session_state.ultimo_trade_ts) < cfg["cooldown_seg"]
 
 if cfg["autotrade"] and not posicoes and not meta_batida and not em_cooldown:
-    sinal = avaliar_sinal(preco_atual, media_atual)
+    sinal = avaliar_sinal(df)
     if sinal:
         res = enviar_ordem(
             cfg["simbolo"],
@@ -78,12 +78,15 @@ if cfg["autotrade"] and not posicoes and not meta_batida and not em_cooldown:
             cfg["sl_input"],
             cfg["tp_input"],
             LOG_FILE,
+            cfg["max_spread_pts"],
         )
         if res and res.retcode == mt5.TRADE_RETCODE_DONE:
             st.session_state.ultimo_trade_ts = agora_ts
             st.success(f"Ordem {sinal} executada pelo robo.")
         elif res:
             st.error(f"Falha ao executar {sinal}: {res.comment}")
+        else:
+            st.warning("Entrada automatica bloqueada por validacao (spread/stops/ativo).")
 
 render_alertas(
     meta_batida,
@@ -103,6 +106,7 @@ if comprar:
         cfg["sl_input"],
         cfg["tp_input"],
         LOG_FILE,
+        cfg["max_spread_pts"],
     )
     if res and res.retcode == mt5.TRADE_RETCODE_DONE:
         st.session_state.ultimo_trade_ts = time.time()
@@ -120,6 +124,7 @@ if vender:
         cfg["sl_input"],
         cfg["tp_input"],
         LOG_FILE,
+        cfg["max_spread_pts"],
     )
     if res and res.retcode == mt5.TRADE_RETCODE_DONE:
         st.session_state.ultimo_trade_ts = time.time()

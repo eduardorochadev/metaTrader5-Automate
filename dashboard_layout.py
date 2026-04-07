@@ -34,6 +34,7 @@ def render_sidebar():
     lote = st.sidebar.number_input("Volume (Lote)", 0.01, 1.0, 0.01, 0.01)
     sl_input = st.sidebar.number_input("Stop Loss (Pts)", value=200)
     tp_input = st.sidebar.number_input("Take Profit (Pts)", value=400)
+    max_spread_pts = st.sidebar.number_input("Spread maximo (pts)", min_value=0.0, value=20.0, step=1.0)
     autotrade = st.sidebar.toggle("Ativar Auto-Trading", value=False)
     cooldown_seg = st.sidebar.number_input("Cooldown entre ordens (s)", min_value=5, max_value=300, value=30, step=5)
     refresh_seg = st.sidebar.slider("Atualizar a cada (s)", min_value=1, max_value=30, value=3)
@@ -46,6 +47,7 @@ def render_sidebar():
         "lote": lote,
         "sl_input": sl_input,
         "tp_input": tp_input,
+        "max_spread_pts": max_spread_pts,
         "autotrade": autotrade,
         "cooldown_seg": cooldown_seg,
         "refresh_seg": refresh_seg,
